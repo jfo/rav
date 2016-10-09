@@ -1,5 +1,4 @@
-use std::io::stdout;
-use std::io::Write;
+use std::io::{ stdout, Write };
 
 #[allow(unused_must_use)]
 fn main() {
