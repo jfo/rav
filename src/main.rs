@@ -1,5 +1,6 @@
 use std::io::stdout;
+use std::io::Write;
 
 fn main() {
-    stdout();
+    stdout().write("hi mom");
 }
