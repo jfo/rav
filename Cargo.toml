@@ -1,0 +1,6 @@
+[package]
+name = "rav"
+version = "0.1.0"
+authors = ["Jeff Fowler <jeffowler@gmail.com>"]
+
+[dependencies]
