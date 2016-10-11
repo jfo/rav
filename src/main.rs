@@ -36,10 +36,10 @@ fn write_header() {
     handle.write_u32::<LittleEndian>(44100);
 
     // blockalign
-    handle.write(&[ 1, 0 ]);
+    handle.write_u16::<LittleEndian>(1);
 
     // bitspersample
-    handle.write(&[ 8, 0 ]);
+    handle.write_u16::<LittleEndian>(8);
 
     // subchunk2 id
     handle.write(b"data");
