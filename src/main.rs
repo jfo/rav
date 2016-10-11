@@ -12,40 +12,29 @@ fn write_header() {
 
     // ChunkId
     handle.write(b"RIFF");
-
     // ChunkSize = 36 + subchunk size 2
-    handle.write_u32::<LittleEndian>(44136);
-
+    handle.write_u32::<LittleEndian>(36 + 44100);
     // Format
     // Subchunk1ID
     handle.write(b"WAVEfmt ");
-
     // Subchunk1size
     handle.write_u32::<LittleEndian>(16);
-
     // AudioFormat
     handle.write_u16::<LittleEndian>(1);
-
     // Numchannels
     handle.write_u16::<LittleEndian>(1);
-
     // Samplerate
     handle.write_u32::<LittleEndian>(44100);
-
     // Byterate samplerate + num of channels * bits per sample /8
-    handle.write_u32::<LittleEndian>(44100);
-
+    handle.write_u32::<LittleEndian>(44100 * 1 * (8 / 8));
     // blockalign
     handle.write_u16::<LittleEndian>(1);
-
     // bitspersample
     handle.write_u16::<LittleEndian>(8);
-
     // subchunk2 id
     handle.write(b"data");
-
     // subchunk2size == numsamples * numchannels * bitspersample / 8
-    handle.write_u32::<LittleEndian>(44100);
+    handle.write_u32::<LittleEndian>(44100 * 1 * (8 / 8));
 }
 
 fn main() {
