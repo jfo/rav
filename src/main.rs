@@ -31,13 +31,14 @@ fn write_header(seconds: u32, mut handle: StdoutLock) {
     handle.write_u32::<LittleEndian>(numsamples * CHANNELS * (BIT_DEPTH / BYTE_SIZE));
 }
 
+#[allow(unused_must_use)]
 fn main() {
 
     let duration = 1;
 
-    let stdout = stdout();
-    write_header(duration, stdout.lock());
+    let stdoutvar = stdout();
+    write_header(duration, stdoutvar.lock());
     for x in 0..duration * SAMPLE_RATE {
-        stdout().write(&[ rand::random::<u8>() ]);
+        stdoutvar.lock().write(&[ rand::random::<u8>() ]);
     }
 }
