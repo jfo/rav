@@ -30,7 +30,7 @@ fn write_header() {
     handle.write(&[ 1, 0 ]);
 
     // Samplerate
-    handle.write(&[ 0x44, 0xac, 0x00, 0x00 ]);
+    handle.write_u32::<LittleEndian>(44100);
 
     // Byterate samplerate + num of channels * bits per sample /8
     handle.write(&[ 0x44, 0xac, 0x00, 0x00 ]);
