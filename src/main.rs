@@ -3,7 +3,7 @@ extern crate rand;
 
 #[allow(unused_must_use)]
 fn write_header() {
-    stdout = stdout();
+    let stdout = stdout();
 
     // ChunkId
     stdout.write(b"RIFF");
