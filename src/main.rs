@@ -1,5 +1,9 @@
-use std::io::{ stdout, Write };
 extern crate rand;
+extern crate byteorder;
+
+use std::io::{ stdout, Write };
+use byteorder::{LittleEndian, WriteBytesExt};
+
 
 #[allow(unused_must_use)]
 fn write_header() {
@@ -17,7 +21,7 @@ fn write_header() {
     handle.write(b"WAVEfmt ");
 
     // Subchunk1size
-    handle.write(&[16, 0, 0, 0 ]);
+    handle.write_u32::<LittleEndian>(16);
 
     // AudioFormat
     handle.write(&[ 1, 0 ]);
