@@ -1,7 +1,7 @@
 extern crate rand;
 extern crate byteorder;
 
-use std::io::{ Write };
+use std::io::{ stdout, Write };
 use byteorder::{LittleEndian, WriteBytesExt};
 
 const SAMPLE_RATE: u32 = 44100;
@@ -40,6 +40,9 @@ fn main() {
     write_header(duration, &mut vec);
 
     println!("{:?}", &vec);
+
+    let stdout = stdout();
+    write_header(duration, &mut stdout.lock());
 
     // for x in 0..duration * SAMPLE_RATE {
     //     stdoutvar.lock().write(&[ rand::random::<u8>() ]);
