@@ -34,8 +34,12 @@ fn write_header(seconds: u32) {
 }
 
 fn main() {
-    write_header(1);
-    // for x in 0..44100 {
-    //     stdout().write(&[ rand::random::<u8>() ]);
-    // }
+
+    let duration = 1;
+
+    write_header(duration);
+    for x in 0..duration * SAMPLE_RATE {
+        stdout().write(&[ rand::random::<u8>() ]);
+    }
+
 }
