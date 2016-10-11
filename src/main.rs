@@ -13,7 +13,7 @@ const BIT_DEPTH: u32 = 8;
 const BYTE_SIZE: u32 = 8;
 
 #[allow(unused_must_use)]
-fn write_header<T:Write>(seconds: u32, mut handle: T) {
+fn write_header<T:Write>(seconds: u32, handle: &mut T) {
 
     let numsamples = SAMPLE_RATE * seconds;
 
@@ -36,10 +36,10 @@ fn write_header<T:Write>(seconds: u32, mut handle: T) {
 fn main() {
 
     let duration = 1;
-    let vec: Vec<u8> = Vec::new();
-    write_header(duration, vec);
+    let mut vec: Vec<u8> = Vec::new();
+    write_header(duration, &mut vec);
 
-    println!("{:?}", vec);
+    println!("{:?}", &vec);
 
     // for x in 0..duration * SAMPLE_RATE {
     //     stdoutvar.lock().write(&[ rand::random::<u8>() ]);
