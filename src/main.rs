@@ -4,6 +4,7 @@ extern crate byteorder;
 use std::io::{ stdout, Write };
 use byteorder::{LittleEndian, WriteBytesExt};
 
+const SAMPLE_RATE: u32 = 44100;
 
 #[allow(unused_must_use)]
 fn write_header() {
@@ -24,9 +25,9 @@ fn write_header() {
     // Numchannels
     handle.write_u16::<LittleEndian>(1);
     // Samplerate
-    handle.write_u32::<LittleEndian>(44100);
+    handle.write_u32::<LittleEndian>(SAMPLE_RATE);
     // Byterate samplerate + num of channels * bits per sample /8
-    handle.write_u32::<LittleEndian>(44100 * 1 * (8 / 8));
+    handle.write_u32::<LittleEndian>(SAMPLE_RATE * 1 * (8 / 8));
     // blockalign
     handle.write_u16::<LittleEndian>(1);
     // bitspersample
