@@ -1,6 +1,7 @@
 use std::io::{ stdout, Write };
 extern crate rand;
 
+#[allow(unused_must_use)]
 fn write_header() {
     // ChunkId
     stdout().write(b"RIFF");
@@ -42,7 +43,6 @@ fn write_header() {
     stdout().write(&[ 0x44, 0xac, 0x00, 0x00 ]);
 }
 
-#[allow(unused_must_use)]
 fn main() {
     write_header();
     // for x in 0..44100 {
