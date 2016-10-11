@@ -34,7 +34,7 @@ fn write_header<T:Write>(seconds: u32, handle: &mut T) {
 
 #[allow(unused_must_use)]
 fn make_some_noise<T:Write>(seconds: u32, handle: &mut T) {
-    for x in 0..seconds * SAMPLE_RATE {
+    for _ in 0..seconds * SAMPLE_RATE {
         handle.write(&[ rand::random::<u8>() ]);
     }
 }
