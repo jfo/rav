@@ -1,9 +1,7 @@
 use std::io::{ stdout, Write };
 extern crate rand;
 
-#[allow(unused_must_use)]
-fn main() {
-
+fn write_header() {
     // ChunkId
     stdout().write(b"RIFF");
 
@@ -42,8 +40,12 @@ fn main() {
 
     // subchunk2size == numsamples * numchannels * bitspersample / 8
     stdout().write(&[ 0x44, 0xac, 0x00, 0x00 ]);
+}
 
-    for x in 0..44100 {
-        stdout().write(&[ rand::random::<u8>() ]);
-    }
+#[allow(unused_must_use)]
+fn main() {
+    write_header();
+    // for x in 0..44100 {
+    //     stdout().write(&[ rand::random::<u8>() ]);
+    // }
 }
