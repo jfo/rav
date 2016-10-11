@@ -13,7 +13,7 @@ const BIT_DEPTH: u32 = 8;
 const BYTE_SIZE: u32 = 8;
 
 #[allow(unused_must_use)]
-fn write_header(seconds: u32, mut handle: StdoutLock) {
+fn write_header<T:Write>(seconds: u32, mut handle: T) {
 
     let numsamples = SAMPLE_RATE * seconds;
 
@@ -38,7 +38,7 @@ fn main() {
 
     let stdoutvar = stdout();
     write_header(duration, stdoutvar.lock());
-    for x in 0..duration * SAMPLE_RATE {
-        stdoutvar.lock().write(&[ rand::random::<u8>() ]);
-    }
+    // for x in 0..duration * SAMPLE_RATE {
+    //     stdoutvar.lock().write(&[ rand::random::<u8>() ]);
+    // }
 }
