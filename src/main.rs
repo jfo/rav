@@ -8,16 +8,16 @@ const SAMPLE_RATE: u32 = 44100;
 const CHANNELS: u32 = 1;
 const HEADER_SIZE: u32 = 36;
 const SUBCHUNK1_SIZE: u32 = 16;
-const AUDIO_FORMAT: u32 = 1; // for PCM
+const AUDIO_FORMAT: u32 = 1;
 const BIT_DEPTH: u32 = 8;
 const BYTE_SIZE: u32 = 8;
 
 #[allow(unused_must_use)]
-fn write_header() {
+fn write_header(seconds: u32) {
     let stdout = stdout();
     let mut handle = stdout.lock();
 
-    let numsamples = SAMPLE_RATE * 1;
+    let numsamples = SAMPLE_RATE * seconds;
 
     handle.write(b"RIFF");
     handle.write_u32::<LittleEndian>(HEADER_SIZE + numsamples);
@@ -34,7 +34,7 @@ fn write_header() {
 }
 
 fn main() {
-    write_header();
+    write_header(1);
     // for x in 0..44100 {
     //     stdout().write(&[ rand::random::<u8>() ]);
     // }
