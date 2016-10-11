@@ -1,7 +1,7 @@
 extern crate rand;
 extern crate byteorder;
 
-use std::io::{ stdout, Write, StdoutLock};
+use std::io::{ stdout, Write };
 use byteorder::{LittleEndian, WriteBytesExt};
 
 const SAMPLE_RATE: u32 = 44100;
