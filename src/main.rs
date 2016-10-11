@@ -4,7 +4,7 @@ extern crate rand;
 #[allow(unused_must_use)]
 fn write_header() {
     let stdout = stdout();
-    let handle = stdout.lock();
+    let mut handle = stdout.lock();
 
     // ChunkId
     handle.write(b"RIFF");
