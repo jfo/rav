@@ -14,7 +14,7 @@ fn write_header() {
     handle.write(b"RIFF");
 
     // ChunkSize = 36 + subchunk size 2
-    handle.write(&[ 0x68, 0xac, 0x00, 0x00 ]);
+    handle.write_u32::<LittleEndian>(44136);
 
     // Format
     // Subchunk1ID
@@ -24,10 +24,10 @@ fn write_header() {
     handle.write_u32::<LittleEndian>(16);
 
     // AudioFormat
-    handle.write(&[ 1, 0 ]);
+    handle.write_u16::<LittleEndian>(1);
 
     // Numchannels
-    handle.write(&[ 1, 0 ]);
+    handle.write_u16::<LittleEndian>(1);
 
     // Samplerate
     handle.write_u32::<LittleEndian>(44100);
@@ -45,7 +45,7 @@ fn write_header() {
     handle.write(b"data");
 
     // subchunk2size == numsamples * numchannels * bitspersample / 8
-    handle.write(&[ 0x44, 0xac, 0x00, 0x00 ]);
+    handle.write_u32::<LittleEndian>(44100);
 }
 
 fn main() {
