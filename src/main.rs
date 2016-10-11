@@ -37,8 +37,7 @@ fn main() {
 
     let stdout = stdout();
     write_header(duration, stdout.lock());
-    // for x in 0..duration * SAMPLE_RATE {
-    //     stdout().write(&[ rand::random::<u8>() ]);
-    // }
-
+    for x in 0..duration * SAMPLE_RATE {
+        stdout().write(&[ rand::random::<u8>() ]);
+    }
 }
