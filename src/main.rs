@@ -11,10 +11,12 @@ fn write_header() {
     let stdout = stdout();
     let mut handle = stdout.lock();
 
+    let numsamples = SAMPLE_RATE * 1;
+
     // ChunkId
     handle.write(b"RIFF");
     // ChunkSize = 36 + subchunk size 2
-    handle.write_u32::<LittleEndian>(36 + 44100);
+    handle.write_u32::<LittleEndian>(36 + numsamples);
     // Format
     // Subchunk1ID
     handle.write(b"WAVEfmt ");
@@ -35,7 +37,7 @@ fn write_header() {
     // subchunk2 id
     handle.write(b"data");
     // subchunk2size == numsamples * numchannels * bitspersample / 8
-    handle.write_u32::<LittleEndian>(44100 * 1 * (8 / 8));
+    handle.write_u32::<LittleEndian>(numsamples * 1 * (8 / 8));
 }
 
 fn main() {
