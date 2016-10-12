@@ -38,19 +38,10 @@ fn write_header<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error> {
     Ok(())
 }
 
-fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error > {
-
-    for _ in 0..seconds * SAMPLE_RATE {
-       try!(handle.write(&[ rand::random::<u8>() ]));
-    }
-
-    Ok(())
-}
-
-fn sine_wave<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error > {
+fn sine_wave<T: Write>(seconds: u32, handle: &mut T, freq: f64) -> Result<(), Error > {
     for x in 0..seconds * SAMPLE_RATE {
        let x = x as f64;
-       try!(handle.write(&[ ((((((x * 2f64 * PI) / 44100f64) * 440f64).sin() + 1f64 )/ 2f64) * 255f64) as u8 ]));
+       try!(handle.write(&[ ((((((x * 2f64 * PI) / SAMPLE_RATE as f64) * freq).sin() + 1f64 )/ 2f64) * 255f64) as u8 ]));
     }
     Ok(())
 }
@@ -60,6 +51,14 @@ fn main() {
 
     let mut fp = File::create("out.wav").unwrap();
 
-    write_header(duration, &mut fp).unwrap();
-    sine_wave(duration, &mut fp).unwrap();
+    write_header(duration * 9, &mut fp).unwrap();
+    sine_wave(duration, &mut fp, 523.25_f64).unwrap();
+    sine_wave(duration, &mut fp, 493.88_f64).unwrap();
+    sine_wave(duration, &mut fp, 440_f64).unwrap();
+    sine_wave(duration, &mut fp, 415.30_f64).unwrap();
+    sine_wave(duration, &mut fp, 392_f64).unwrap();
+    sine_wave(duration, &mut fp, 349.23_f64).unwrap();
+    sine_wave(duration, &mut fp, 329.63_f64).unwrap();
+    sine_wave(duration, &mut fp, 293.66_f64).unwrap();
+    sine_wave(duration, &mut fp, 261.63_f64).unwrap();
 }
