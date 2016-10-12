@@ -1,7 +1,7 @@
 extern crate rand;
 extern crate byteorder;
 
-use std::io::{ Write };
+use std::io::{ Write, Error };
 use byteorder::{ LittleEndian, WriteBytesExt };
 use std::fs::File;
 
@@ -37,10 +37,14 @@ fn write_header<T: Write>(seconds: u32, handle: &mut T) {
 
 }
 
-fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) {
+fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) -> Result<(), std::io::Error > {
     for _ in 0..seconds * SAMPLE_RATE {
-        handle.write(&[ rand::random::<u8>() ]);
+        match handle.write(&[ rand::random::<u8>() ]) {
+            Ok(val) => val,
+            Err(err) => return Err(err)
+        };
     }
+    Ok(())
 }
 
 fn main() {
