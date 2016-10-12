@@ -49,7 +49,7 @@ fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error >
 fn make_a_random_ass_sawtooth<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error > {
 
     for x in 0..seconds * SAMPLE_RATE {
-       try!(handle.write(&[ (x + 1) % 255 ]));
+       try!(handle.write(&[ ((x + 1) % 255) as u8 ]));
     }
 
     Ok(())
