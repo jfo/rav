@@ -60,6 +60,10 @@ fn main() {
 
     let mut fp = File::create("out.wav").unwrap();
 
-    write_header(duration, &mut fp).unwrap();
+    write_header(duration * 4, &mut fp).unwrap();
+
     make_a_random_ass_sawtooth(duration, &mut fp).unwrap();
+    make_some_noise(duration, &mut fp).unwrap();
+    make_a_random_ass_sawtooth(duration, &mut fp).unwrap();
+    make_some_noise(duration, &mut fp).unwrap();
 }
