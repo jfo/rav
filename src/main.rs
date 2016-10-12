@@ -50,7 +50,7 @@ fn main() {
 
     let mut fp = match File::create("out.wav") {
         Ok(val) => val,
-        Err(err) => panic!("File creation failed.", err)
+        Err(_) => panic!("File creation failed.")
     };
 
     write_header(duration, &mut fp);
