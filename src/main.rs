@@ -48,7 +48,10 @@ fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) {
 fn main() {
     let duration = 1;
 
-    let mut fp = File::create("out.wav").unwrap();
+    let mut fp = match File::create("out.wav") {
+        Ok(val) => val,
+        Err(err) => panic!("called `Result::unwrap()` on an `Err` value: {:?}", err)
+    };
 
     write_header(duration, &mut fp);
     make_some_noise(duration, &mut fp);
