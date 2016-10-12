@@ -4,6 +4,7 @@ extern crate byteorder;
 use std::io::{ Write, Error };
 use byteorder::{ LittleEndian, WriteBytesExt };
 use std::fs::File;
+use std::f64::consts::PI;
 
 
 const SAMPLE_RATE: u32 = 44100;
@@ -46,12 +47,11 @@ fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error >
     Ok(())
 }
 
-fn make_a_random_ass_sawtooth<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error > {
-
+fn sine_wave<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error > {
     for x in 0..seconds * SAMPLE_RATE {
-       try!(handle.write(&[ ((x + 1) % 255) as u8 ]));
+       let x = x as f64;
+       try!(handle.write(&[ ((((((x * 2f64 * PI) / 44100f64) * 440f64).sin() + 1f64 )/ 2f64) * 255f64) as u8 ]));
     }
-
     Ok(())
 }
 
@@ -60,10 +60,6 @@ fn main() {
 
     let mut fp = File::create("out.wav").unwrap();
 
-    write_header(duration * 4, &mut fp).unwrap();
-
-    make_a_random_ass_sawtooth(duration, &mut fp).unwrap();
-    make_some_noise(duration, &mut fp).unwrap();
-    make_a_random_ass_sawtooth(duration, &mut fp).unwrap();
-    make_some_noise(duration, &mut fp).unwrap();
+    write_header(duration, &mut fp).unwrap();
+    sine_wave(duration, &mut fp).unwrap();
 }
