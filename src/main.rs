@@ -15,29 +15,66 @@ const BIT_DEPTH: u32 = 8;
 const BYTE_SIZE: u32 = 8;
 
 #[allow(unused_must_use)]
-fn write_header<T: Write>(seconds: u32, handle: &mut T) {
+fn write_header<T: Write>(seconds: u32, handle: &mut T) -> Result<(), std::io::Error>{
 
     let numsamples = SAMPLE_RATE * seconds;
 
-    handle.write(b"RIFF");
-    handle.write_u32::<LittleEndian>(HEADER_SIZE + numsamples);
+    match handle.write(b"RIFF") {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u32::<LittleEndian>(HEADER_SIZE + numsamples) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
 
-    handle.write(b"WAVEfmt ");
-    handle.write_u32::<LittleEndian>(SUBCHUNK1_SIZE);
-    handle.write_u16::<LittleEndian>(AUDIO_FORMAT as u16);
-    handle.write_u16::<LittleEndian>(CHANNELS as u16);
+    match handle.write(b"WAVEfmt ") {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u32::<LittleEndian>(SUBCHUNK1_SIZE) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u16::<LittleEndian>(AUDIO_FORMAT as u16) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u16::<LittleEndian>(CHANNELS as u16) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
 
-    handle.write_u32::<LittleEndian>(SAMPLE_RATE);
-    handle.write_u32::<LittleEndian>(SAMPLE_RATE * CHANNELS * (BIT_DEPTH / BYTE_SIZE));
-    handle.write_u16::<LittleEndian>((CHANNELS * (BIT_DEPTH / BYTE_SIZE)) as u16);
-    handle.write_u16::<LittleEndian>(BIT_DEPTH as u16);
+    match handle.write_u32::<LittleEndian>(SAMPLE_RATE) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u32::<LittleEndian>(SAMPLE_RATE * CHANNELS * (BIT_DEPTH / BYTE_SIZE)) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u16::<LittleEndian>((CHANNELS * (BIT_DEPTH / BYTE_SIZE)) as u16) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u16::<LittleEndian>(BIT_DEPTH as u16) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
 
-    handle.write(b"data");
-    handle.write_u32::<LittleEndian>(numsamples * CHANNELS * (BIT_DEPTH / BYTE_SIZE));
+    match handle.write(b"data") {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
+    match handle.write_u32::<LittleEndian>(numsamples * CHANNELS * (BIT_DEPTH / BYTE_SIZE)) {
+        Ok(val) => val,
+        Err(err) => return Err(err)
+    };
 
+    Ok(())
 }
 
-fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) -> Result<(), std::io::Error > {
+fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) -> Result<(), Error > {
     for _ in 0..seconds * SAMPLE_RATE {
         match handle.write(&[ rand::random::<u8>() ]) {
             Ok(val) => val,
@@ -55,6 +92,12 @@ fn main() {
         Err(_) => panic!("File creation failed.")
     };
 
-    write_header(duration, &mut fp);
-    make_some_noise(duration, &mut fp);
+    match write_header(duration, &mut fp) {
+        Ok(val) => val,
+        Err(_) => panic!("Header writing failed")
+    };
+    match make_some_noise(duration, &mut fp) {
+        Ok(val) => val,
+        Err(_) => panic!("Noisemaking failed.")
+    };
 }
