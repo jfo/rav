@@ -2,7 +2,9 @@ extern crate rand;
 extern crate byteorder;
 
 use std::io::{ Write };
-use byteorder::{LittleEndian, WriteBytesExt};
+use byteorder::{ LittleEndian, WriteBytesExt };
+use std::fs::File;
+
 
 const SAMPLE_RATE: u32 = 44100;
 const CHANNELS: u32 = 1;
@@ -45,8 +47,9 @@ fn make_some_noise<T: Write>(seconds: u32, handle: &mut T) {
 #[allow(unused_must_use)]
 fn main() {
     let duration = 1;
-    let mut vec: Vec<u8> = Vec::new();
-    write_header(duration, &mut vec);
-    make_some_noise(duration, &mut vec);
-    println!("{:?}", &vec);
+
+    let mut fp = File::create("out.wav");
+
+    write_header(duration, &mut fp);
+    make_some_noise(duration, &mut fp);
 }
